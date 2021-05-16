@@ -6,13 +6,6 @@ const phone=document.getElementById("phone");
 const psw=document.getElementById("psw");
 const psw1=document.getElementById("psw1");
 
-// const newtooltip=document.createElement("button")
-// newtooltip.className="btn btn-secondary"
-// newtooltip.type="button"
-// newtooltip.setAttribute("data-toggle","tooltip")
-// newtooltip.setAttribute("data-placement","right")
-// newtooltip.textContent="Invalid Username"
-
 // ----------FIRST WAY --------------
 // form.addEventListener("submit",function(e){
 //     e.preventDefault();
@@ -34,29 +27,54 @@ const psw1=document.getElementById("psw1");
 // });
 
 // ------SECOND WAY ---------
-function error(input){
+function error(input,message){
     input.className="form-control is-invalid";
+    console.log(message)
+    const divTag=input.nextElementSibling;
+    divTag.innerText=message
+    divTag.className="invalid-feedback"
+
 }
 
 function success(input){
     input.className="form-control is-valid";
 }
+function validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
 
 form.addEventListener("submit",function(e){
     e.preventDefault();
     if (userTag.value===""){
-       error(userTag) 
+       error(userTag,"username gerekli") 
+      }
+      else{
+          success(userTag)
       }
     if (email.value===""){
-        error(email) 
+        error(email,"email gerekli") 
+    }else if ( !validateEmail(email)){
+        error(email,"xxxxx@xxx.com formatında bir adres girin")
     }
+
+    else{
+        success(email)
+    }
+    
     if (phone.value===""){
-        success(phone) 
+        error(phone,"Telefon gerekli") 
+    }else{
+        success(phone)
     }
     if (psw.value===""){
-        error(psw) 
+        error(psw,"Password gerekli") 
+    }else{
+        success(psw)
     }
     if (psw1.value===""){
-        error(psw1) 
-       }
+        error(psw1,"Password tekrar giriniz")
+           }else{
+        success(psw1)
+    }
 });
